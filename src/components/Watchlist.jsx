@@ -1,9 +1,16 @@
 import React from "react";
 import MovieCard from "./MovieCard";
 
-function Watchlist({ list }) {
+function Watchlist({ list, removeMovie }) {
   const movieDisplay = list.map((movie, index) => {
-    return <MovieCard movie={movie} list={list} />;
+    return (
+      <MovieCard
+        key={movie.id}
+        movie={movie}
+        list={list}
+        removeMovie={removeMovie}
+      />
+    );
   });
 
   return (

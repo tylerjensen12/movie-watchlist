@@ -8,7 +8,7 @@ import Watchlist from "./components/Watchlist";
 function App() {
   const [movieList, setMovieList] = useState([]);
   const [list, setList] = useState([]);
-  const [page, setPage] = useState("1");
+  const [page, setPage] = useState(1);
 
   const getData = () => {
     axios
@@ -16,7 +16,6 @@ function App() {
         `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${page}`
       )
       .then((res) => {
-        console.log(res.data.results);
         setMovieList(res.data.results);
       });
   };
@@ -26,7 +25,10 @@ function App() {
   }, [page]);
 
   const addMovie = (movie) => setList([...list, movie])
-  
+  const removeMovie = (movie) => {
+    const newState = list.filter((mov) => mov !== movie)
+    setList(newState)
+  }
   return (
     <div className="App">
       <Header />
@@ -37,8 +39,9 @@ function App() {
           setPage={setPage}
           list={list}
           addMovie={addMovie}
+          removeMovie={removeMovie}
         />
-        <Watchlist list={list} />
+        <Watchlist list={list} removeMovie={removeMovie}/>
       </main>
     </div>
   );
